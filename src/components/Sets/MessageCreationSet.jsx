@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import DefaultInput from "../Inputs/DefaultInput";
 import FilePickmentSet from "./FilePickmentSet";
 import { IoIosSend } from "react-icons/io";
@@ -17,6 +17,15 @@ export default function MessageCreationSet() {
     const [textMessage, setTextMessage] = useState("");
     const filesSelected = useSelector(selectFilesOrdered);
 
+    const fileIsSendable = useMemo(()=> {
+        if(textMessage.length === 0 && filesSelected.length === 0) {
+            return false;
+        }
+        
+        else {
+            return true;
+        }
+    }, [textMessage, filesSelected]);
 
     const textInput_onChange = useCallback((ev) => {
         setTextMessage(ev.target.value);
@@ -47,12 +56,15 @@ export default function MessageCreationSet() {
     }, []);
 
     const sendButton_onClick = useCallback(ev => {
+        if(fileIsSendable === false) return;
+
         const fileContents = filesSelected.map(file => (
             {
                 type: file.type,
                 content: file.data
             }
         ));
+
         sendMessage([
             {
                 type: "text/plain",
@@ -68,6 +80,7 @@ export default function MessageCreationSet() {
 
     }, [textMessage, filesSelected]);
 
+
     return (
         <div className="w-full p-3 flex border-t-2 ">
 
@@ -78,7 +91,7 @@ export default function MessageCreationSet() {
                             <EmojiPickmentSet />
                         </div> */}
                         <FilePickmentSet onChange={filePickment_onChange}/>
-                        <DefaultButton onClick={sendButton_onClick} className="h-full aspect-square p-1 bg-gradient-3">
+                        <DefaultButton onClick={sendButton_onClick} className={"h-full aspect-square p-1 bg-gradient-3 " + (fileIsSendable === false ? "grayscale" : "") }>
                             <IoIosSend className="h-full w-full" fill="#fff"/>
                         </DefaultButton>
                     </>

@@ -16,18 +16,20 @@ const myVariables = getVariablesForClient(
         // Sockets: ↓↓
         /^SOCKETIO_EVENT_/,
         "SOCKETIO_RESULT_SUFFIX",
+        "SOCKETIO_MAX_PAYLOAD_SIZE",
 
         // Api: ↓↓
         /^API_PATH/,
 
 
         // Other: ↓↓
+        "CREATOR_INSTAGRAM",
+        "CREATOR_GITHUB",
         "NODE_ENV"
     ],
     {...globalConfig}
 );
 
-console.log(myVariables);
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
@@ -36,6 +38,7 @@ export default defineConfig({
     },
     server: {
         port: globalConfig.FRONTEND_SERVER_PORT
-    },
+    }
+
     
 })

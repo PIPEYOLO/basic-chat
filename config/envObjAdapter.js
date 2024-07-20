@@ -1,4 +1,4 @@
-import globalConfig from ".";
+import globalConfig from "./index.js";
 
 export function getVariablesForClient(variables, envObj) {
 

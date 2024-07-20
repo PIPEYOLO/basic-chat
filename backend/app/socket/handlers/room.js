@@ -1,10 +1,10 @@
 import { Socket } from "socket.io";
+
 import globalConfig from "../../../config/index.js";
 import { UNVALID_ROOM_JOIN_DATA_ERROR, UNVALID_ROOM_MESSAGE_DATA_ERROR } from "../../services/errors/index.js";
 import { SuccessfulResult, UnsuccessfulResult } from "../../services/results/index.js";
 import { joinRoomAs, leaveJoinedRoom, leaveRoom } from "../utils/room.js";
 import Message from "../../services/models/Message/index.js";
-import { getSocketRoomData, setSocketRoomData } from "../utils/auth.js";
 
 const { SOCKETIO_EVENT_ROOM_JOIN, SOCKETIO_EVENT_ROOM_LEAVE, SOCKETIO_EVENT_ROOM_MESSAGE } = globalConfig;
 
@@ -17,6 +17,8 @@ export default function handleRoomEvents(socket) {
 
 
     // Events and MiddleWares
+
+    // On room Join:
     socket.on(SOCKETIO_EVENT_ROOM_JOIN, data => {
         console.log(SOCKETIO_EVENT_ROOM_JOIN, data);
         if(typeof data !== "object") {
@@ -29,13 +31,16 @@ export default function handleRoomEvents(socket) {
 
         return joinRoomAs(socket, room, name); // we join the room desired
     });
+    // --------------------
 
+    // On Room Leave
     socket.on(SOCKETIO_EVENT_ROOM_LEAVE, data => {
         leaveRoom(socket, socket.rooms[socket.rooms.size - 1]); // we leave the room we are joined
     });
+    //--------
 
 
-
+    // On Room Message: 
     socket.on(SOCKETIO_EVENT_ROOM_MESSAGE, data => {
         console.log(data);
         if(typeof data !== "object") {

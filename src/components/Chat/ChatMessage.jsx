@@ -72,9 +72,18 @@ const ChatMessage = memo(
             }
             else if(shipState === "notShipped") {
                 return (
-                    <div className="h-10 aspect-square">
-                        <IoMdAlert fill="#f00" />
-                    </div>
+                    <Tooltip 
+                        reference={(
+                            <div className="h-10 aspect-square">
+                                <IoMdAlert fill="#f00" />
+                            </div>
+                        )}
+                        toolTipContent={(
+                            <div className="font-semibold max-w-24 p-3 text-sm text-black bg-white">
+                                {error.message}
+                            </div>
+                        )}
+                    />
                 )
             }
             else {
@@ -109,17 +118,9 @@ const ChatMessage = memo(
                         {separatedContents.textContent?.content ?? ""}
                     </p>
                 </div>
-                {
-                    error ? <Tooltip 
-                        reference={renderedShipstateRepresentation}
-                        toolTipContent={(
-                            <div className="font-semibold max-w-24 p-3 text-sm text-black bg-white">
-                                {error.message}
-                            </div>
-                        )}
-                    />
-                    : ""
-                }
+
+                {renderedShipstateRepresentation}
+
             </div>
         )
     }, 

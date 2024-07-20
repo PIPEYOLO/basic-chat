@@ -34,6 +34,11 @@ export const UNVALID_ROOM_MESSAGE_DATA_ERROR = new StandarizedError({message: "d
 export const UNVALID_MESSAGE_DATA_ERROR = new StandarizedError({message: "data for message is unvalid", status: 401, code: "UNVALID_MESSAGE_DATA"});
 
 
+// Throttling:
+
+export const TO_MANY_EMISSIONS_ERROR = new StandarizedError({message: "payload emission points were reached, please wait to send the next emission", status: 429, code: "TO_MANY_EMISSIONS"});
+
+
 // Unknown:
 export const UNKWONW_ERROR = new StandarizedError({message: "failed to do action", status: 500, code: "UNKWONW"});
 
